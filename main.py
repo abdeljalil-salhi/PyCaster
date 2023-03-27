@@ -34,7 +34,8 @@ class Game:
         self.sound = Sound(self)
         self.pathfinding = PathFinding(self)
         if SOUND:
-            self.loop = self.sound.theme.play()
+            if not self.loop.is_playing():
+                self.loop = self.sound.theme.play()
 
     def update(self):
         self.player.update()
