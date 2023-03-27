@@ -22,7 +22,8 @@ class Game:
         self.global_trigger = False
         self.global_event = pg.USEREVENT + 0
         pg.time.set_timer(self.global_event, 40)
-        self.loop = Sound(self).theme.play()
+        if SOUND:
+            self.loop = Sound(self).theme.play()
         self.new_game()
   
     def new_game(self):
@@ -30,6 +31,7 @@ class Game:
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
+        self.crosshair = CrossHair(self)
         self.object_handler = ObjectHandler(self)
         self.weapon = Weapon(self)
         self.sound = Sound(self)
@@ -55,6 +57,7 @@ class Game:
         elif not NO_TEXTURES:
             self.screen.fill('black')
             self.object_renderer.draw()
+            self.crosshair.draw()
             self.weapon.draw()
   
     def check_events(self):
@@ -62,6 +65,8 @@ class Game:
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
                 pg.quit()
                 sys.exit()
+            elif event.type == pg.KEYDOWN and event.key == pg.K_h:
+                self.crosshair.toggle()
             elif event.type == self.global_event:
                 self.global_trigger = True
             self.player.single_fire_event(event)

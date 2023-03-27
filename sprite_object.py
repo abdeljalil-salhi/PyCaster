@@ -86,4 +86,18 @@ class AnimatedSprite(SpriteObject):
                 images.append(img)
         return images
 
+class CrossHair:
+    def __init__(self, game, path='resources/sprites/crosshair.png'):
+        self.game = game
+        self.crosshair = pg.image.load(path).convert_alpha()
+        self.crosshair = pg.transform.scale(self.crosshair, (CROSSHAIR_SIZE, CROSSHAIR_SIZE))
+        self.show = True
+        
+    def toggle(self):
+        self.show = not self.show
+        
+    def draw(self):
+        if self.show:
+            self.game.screen.blit(self.crosshair,
+                                  (HALF_WIDTH - CROSSHAIR_SIZE // 2, HALF_HEIGHT - CROSSHAIR_SIZE // 2))
   
